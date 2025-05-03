@@ -16,7 +16,7 @@ const About1Card = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/clients?limit=1&sort=-updatedAt');
+        const response = await fetch('api/api/clients?limit=1&sort=-updatedAt');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

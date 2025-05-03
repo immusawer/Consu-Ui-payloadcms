@@ -9,7 +9,7 @@ const BlogStyle1 = ({ sectionClass }) => {
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/blog-posts?limit=3&sort=-date&status=published');
+        const response = await fetch('api/api/blog-posts?limit=3&sort=-date&status=published');
         
         if (!response.ok) {
           throw new Error('Failed to fetch blog posts');

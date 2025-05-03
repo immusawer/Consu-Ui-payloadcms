@@ -15,7 +15,7 @@ const AchievementCounter1 = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/achievements?limit=1&sort=-updatedAt');
+        const response = await fetch('api/api/achievements?limit=1&sort=-updatedAt');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -8,12 +8,12 @@ import logo7 from '/assets/img/logo/7.png';
 
 const PartnerStyle1 = ({ sectionClass }) => {
   const [partnerCount, setPartnerCount] = useState(80);
-  const [loading, setLoading] = useState(false); // Set to false since we have fallback
+ 
 
   useEffect(() => {
     const fetchPartnerCount = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/partner-stats?limit=1');
+        const response = await fetch('api/api/partner-stats?limit=1');
         
         if (response.ok) {
           const data = await response.json();

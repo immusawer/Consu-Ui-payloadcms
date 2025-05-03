@@ -18,16 +18,18 @@ const ContactForm = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:3000/api/contact-submissions', formData, {
+            const response = await axios.post('api/api/contact-submissions', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
             });
 
             if (response.status === 201) {
-                toast.success("Thanks For Your Message");
+                toast.success("Thanks For Your Message", {
+                  autoClose: 3000, // in milliseconds (3 seconds)
+                });
                 event.target.reset();
-            }
+              }
         } catch (error) {
             console.error('Error submitting form:', error);
             const errorMessage = error.response?.data?.message || "Failed to submit form. Please try again later.";

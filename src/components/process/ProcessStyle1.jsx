@@ -11,12 +11,12 @@ const ProcessStyle1 = ({ sectionClass }) => {
     const fetchProcessData = async () => {
       try {
         // First try the Payload CMS API endpoint
-        let response = await fetch('http://localhost:3000/api/process?limit=100&depth=2');
+        let response = await fetch('api/api/process?limit=100&depth=2');
         
         // If that fails, fall back to local JSON
         if (!response.ok) {
           console.warn('Payload API not available, falling back to local JSON');
-          setProcessData(Process1Data); // Import your local JSON
+          setProcessData([]); // Set empty array as fallback when local data is not available
           setLoading(false);
           return;
         }
@@ -28,7 +28,7 @@ const ProcessStyle1 = ({ sectionClass }) => {
           setProcessData(sortedData);
         } else {
           // If no docs, use local JSON
-          setProcessData(Process1Data);
+          setProcessData([]); // Set empty array when no data is available
         }
         setLoading(false);
       } catch (error) {
@@ -36,7 +36,7 @@ const ProcessStyle1 = ({ sectionClass }) => {
         setError(error.message);
         setLoading(false);
         // Fall back to local JSON
-        setProcessData(Process1Data);
+        setProcessData([]); // Set empty array as fallback when API fails
       }
     };
 
