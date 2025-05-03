@@ -1,13 +1,43 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 
 const ContactForm = () => {
+    const [loading, setLoading] = useState(false);
 
-    const handleForm = (event) => {
-        event.preventDefault()
-        event.target.reset()
-        toast.success("Thanks For Your Message")
+    const handleForm = async (event) => {
+        event.preventDefault();
+        setLoading(true);
+
+        const formData = {
+            name: event.target.name.value,
+            email: event.target.email.value,
+            phone: event.target.phone.value,
+            comments: event.target.comments.value,
+        };
+
+        try {
+            const response = await fetch('http://localhost:3000/api/contact-submissions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                toast.success("Thanks For Your Message");
+                event.target.reset();
+            } else {
+                const error = await response.json();
+                toast.error(error.message || "Something went wrong. Please try again.");
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            toast.error("Failed to submit form. Please try again later.");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -44,8 +74,14 @@ const ContactForm = () => {
                 </div>
                 <div className="row">
                     <div className="col-lg-12">
-                        <button type="submit" name="submit" id="submit">
-                            <i className="fa fa-paper-plane"></i> Get in Touch
+                        <button type="submit" name="submit" id="submit" disabled={loading}>
+                            {loading ? (
+                                <span>Sending...</span>
+                            ) : (
+                                <>
+                                    <i className="fa fa-paper-plane"></i> Get in Touch
+                                </>
+                            )}
                         </button>
                     </div>
                 </div>
