@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const ContactForm = () => {
     const [loading, setLoading] = useState(false);
@@ -17,24 +18,20 @@ const ContactForm = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:3000/api/contact-submissions', {
-                method: 'POST',
+            const response = await axios.post('http://localhost:3000/api/contact-submissions', formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                }
             });
 
-            if (response.ok) {
+            if (response.status === 201) {
                 toast.success("Thanks For Your Message");
                 event.target.reset();
-            } else {
-                const error = await response.json();
-                toast.error(error.message || "Something went wrong. Please try again.");
             }
         } catch (error) {
             console.error('Error submitting form:', error);
-            toast.error("Failed to submit form. Please try again later.");
+            const errorMessage = error.response?.data?.message || "Failed to submit form. Please try again later.";
+            toast.error(errorMessage);
         } finally {
             setLoading(false);
         }
